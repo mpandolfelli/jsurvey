@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Survey js</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="lib/Sortable.min.js"></script>
+	<script type="text/javascript" src="survey.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Ubuntu" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="survey.css">
+
+	<style type="text/css">
+		html,body,.flex {
+		    height:100%;
+		    font-family: 'Roboto', sans-serif;
+		}
+		.wrapper{
+			height: 100%;
+			display: -ms-flexbox;
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-box;
+			display: box;
+			-ms-flex-direction: row;
+			-webkit-box-orient: horizontal;
+			-moz-box-orient: horizontal;
+			-ms-box-orient: horizontal;
+			box-orient: horizontal;
+		}
+		.extra{
+			-ms-flex: 1;
+			-webkit-box-flex: 1;
+			-moz-box-flex: 1;
+			-ms-box-flex: 1;
+			box-flex: 1;
+		}
+		.survey{	
+			width: 600px;
+			flex: none;
+		}
+		.bg{
+			background-image: url('pexels-photo-64778.jpeg');
+			background-size: cover;
+			background-position: center;
+		}
+		.bg-verde{
+			background-color: #fff;
+		}
+		.form-control{
+			border-color: #fff;
+			background-color: inherit;
+		}
+		.form-control:focus{
+			border-color: #fff;
+			box-shadow: none!important;
+			transition: all ease .5s;
+			border-bottom:1px solid #2ECC71!important;
+		}
+		@media(max-width: 767px){
+			.survey{
+				width: 100%;
+		 		transition: width 500ms ease-in-out;
+		 		
+			}
+	 		
+	 	}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		
+			<div class="extra bg"></div>
+			<div class="survey bg-verde" id="main"></div>
+		
+	</div>
+	
+<script type="text/javascript">
+
+
+
+var json = {
+	options : {
+		title: 'Test survey',
+		banner: '',
+		containerId: 'main',
+		prefix: 'question',
+		apiUrl: ''
+	},
+	questions: [
+		{type: 'title', size: 'h4', text: 'Crea grandes encuestas a partir de un json'},
+		{label: 'Nombre', tag: 'input', type: 'text', placeholder: 'Nombre', required: true},
+		{label: 'Apellido', tag: 'input', type: 'text', required: false},
+		{label: 'Empresa', tag: 'input', type: 'text', required: true},
+		{label: 'Email', tag: 'input', type: 'email', required: true},
+		{type: 'title', size: 'h4', text: 'Sobre la charla'},
+	    {type: 'custom', tag: 'div', class: 'row', childs: [
+	    	{type: 'custom', tag: 'div', class: 'col-md-6', content: 'esto es un div', childs: [
+				{label: 'Charla', tag: 'input', type:'radio', required: true, childs : [ 
+			        {'value': '1', 'label': 'Buena', skipTo: 8},
+			        {'value': '2', 'label': 'Regular'},
+			        {'value': '3', 'label': 'Una verga'}
+			    ]},
+
+	    	]},
+	    	{type: 'custom', tag: 'div', class: 'col-md-6', content: 'esto es un div', childs: [	
+				{label: 'Contenidos', tag: 'input', type:'radio', required: true, childs : [ 
+			        {'value': '1', 'label': 'Buena'},
+			        {'value': '2', 'label': 'Regular'},
+			        {'value': '3', 'label': 'Una verga'}
+			    ]},
+
+	    	]},
+	    	
+	    ]},
+	    {type: 'title', size: 'h4', text: 'Ordene las tecnologias segun su gusto'},
+	    {type: 'sortable', class: '', childs: [
+			{value: 'Node JS'},
+			{value: 'Ruby on rails'},
+			{value: 'PHP'},
+			{value: 'Python'},
+
+	    ]},
+
+	    {type: 'submit', class: '', text: 'Enviar'},
+	]
+
+
+}
+
+
+var survey = new Survey(json);
+survey.init();
+
+
+</script>
+</body>
+</html>
+
+

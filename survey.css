@@ -1,0 +1,199 @@
+/**
+ * Main variables
+ *
+ */
+/**
+ * Form variables
+ *
+ */
+.container {
+  padding-top: 40px;
+  padding-bottom: 40px; }
+
+.survey-container {
+  color: #333;
+  /*
+      Custom radio and checkboxes
+   */ }
+  .survey-container h1, .survey-container h2, .survey-container h3, .survey-container h4, .survey-container h5 {
+    color: #333; }
+  .survey-container .control-group {
+    display: inline-block;
+    vertical-align: top;
+    background: #fff;
+    text-align: left;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 200px;
+    height: 210px;
+    margin: 10px; }
+  .survey-container .control {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer; }
+  .survey-container .control input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0; }
+  .survey-container .control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background: #e6e6e6; }
+  .survey-container .control--radio .control__indicator {
+    border-radius: 50%; }
+  .survey-container .control:hover input ~ .control__indicator,
+  .survey-container .control input:focus ~ .control__indicator {
+    background: #ccc; }
+  .survey-container .control input:checked ~ .control__indicator {
+    background: #2ECC71; }
+  .survey-container .control:hover input:not([disabled]):checked ~ .control__indicator,
+  .survey-container .control input:checked:focus ~ .control__indicator {
+    background: #2ECC71; }
+  .survey-container .control input:disabled ~ .control__indicator {
+    background: #e6e6e6;
+    opacity: 0.6;
+    pointer-events: none; }
+  .survey-container .control__indicator:after {
+    content: '';
+    position: absolute;
+    display: none; }
+  .survey-container .control input:checked ~ .control__indicator:after {
+    display: block; }
+  .survey-container .control--checkbox .control__indicator:after {
+    left: 8px;
+    top: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); }
+  .survey-container .control--checkbox input:disabled ~ .control__indicator:after {
+    border-color: #7b7b7b; }
+  .survey-container .control--radio .control__indicator:after {
+    left: 7px;
+    top: 7px;
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background: #fff; }
+  .survey-container .control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b; }
+  .survey-container .select {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+    width: 100%; }
+  .survey-container .select select {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    padding: 10px 15px;
+    outline: 0;
+    border: 0;
+    border-radius: 0;
+    background: #e6e6e6;
+    color: #7b7b7b;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; }
+  .survey-container .select select::-ms-expand {
+    display: none; }
+  .survey-container .select select:hover,
+  .survey-container .select select:focus {
+    color: #000;
+    background: #ccc; }
+  .survey-container .select select:disabled {
+    opacity: 0.5;
+    pointer-events: none; }
+  .survey-container .select__arrow {
+    position: absolute;
+    top: 16px;
+    right: 15px;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    border-style: solid;
+    border-width: 8px 5px 0 5px;
+    border-color: #7b7b7b transparent transparent transparent; }
+  .survey-container .select select:hover ~ .select__arrow,
+  .survey-container .select select:focus ~ .select__arrow {
+    border-top-color: #000; }
+  .survey-container .select select:disabled ~ .select__arrow {
+    border-top-color: #ccc; }
+  .survey-container .checkbox label, .survey-container .radio label {
+    padding-left: 28px; }
+  .survey-container label {
+    color: #555; }
+  .survey-container .sv-banner {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 120px;
+    color: #fff;
+    text-align: center;
+    background-color: #2ECC71;
+    border-left: 10px solid #16A085; }
+  .survey-container .form-control {
+    border-radius: 0;
+    padding: 12px;
+    height: auto;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff; }
+    .survey-container .form-control:focus {
+      border-color: #ccc;
+      outline: 0;
+      -webkit-box-shadow: inset 0 1px 1px #ccc, 0 0 8px #ccc;
+      box-shadow: inset 0 1px 1px #ccc, 0 0 8px #ccc; }
+  .survey-container ::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: #ccc; }
+  .survey-container :-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #ccc;
+    opacity: 1; }
+  .survey-container ::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #ccc;
+    opacity: 1; }
+  .survey-container :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #ccc; }
+  .survey-container ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #ccc; }
+  .survey-container .sortable {
+    background-color: #eee;
+    padding: 15px;
+    list-style: none; }
+    .survey-container .sortable li {
+      padding: 6px;
+      cursor: move;
+      border-left: 4px solid #555;
+      margin-bottom: 8px;
+      transition: all ease .5s; }
+    .survey-container .sortable li:hover {
+      background-color: #ccc;
+      transition: all ease .5s; }
+  .survey-container .survey-submit {
+    text-decoration: none;
+    padding: 15px;
+    margin: 10px 0;
+    display: block;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #2ECC71;
+    color: #fff;
+    transition: all ease .5s; }
+    .survey-container .survey-submit:hover {
+      background-color: #3FC380; }
+  .survey-container .error {
+    border: 1px solid #c0392b; }
+
+/*# sourceMappingURL=survey.css.map */

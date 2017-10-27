@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Survey js</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="survey.js"></script>
+	<link rel="stylesheet" type="text/css" href="survey.css">
+</head>
+<body>
+	<div id="main"></div>
+<script type="text/javascript">
+
+
+
+var json = {
+	options : {
+		title: 'Test survey',
+		banner: 'banner.jpg',
+		containerId: 'main',
+		prefix: 'question',
+		apiUrl: ''
+	},
+	questions: [
+		{label: 'Nombre', tag: 'input', type: 'text', required: true},
+		{label: 'Apellido', tag: 'input', type: 'text', required: false},
+		{label: 'Empresa', tag: 'input', type: 'text', required: true},
+		{type: 'custom', tag: 'hr', childs: []},
+		{label: 'Puntuacion de la charla', tag: 'input', type:'radio', required: true, childs : [ 
+	        {'value': '1', 'label': 'Buena', skipTo: 7},
+	        {'value': '2', 'label': 'Regular'},
+	        {'value': '3', 'label': 'Una verga'}
+	    ]},
+	    {type: 'title', size: 'h1', text: 'Subtitulo'},
+	    {type: 'title', size: 'h2', text: 'Subtitulo'},
+	    {type: 'title', size: 'h3', text: 'Subtitulo'},
+	    {type: 'title', size: 'h4', text: 'Subtitulo'},
+	    {type: 'custom', tag: 'div', class: 'row', childs: [
+	    	{type: 'custom', tag: 'div', class: 'col-md-6', content: 'esto es un div', childs: [
+	    		{label: 'Nombre', tag: 'input', type: 'text', required: true},
+				{label: 'Apellido', tag: 'input', type: 'text', required: false},
+				{label: 'Empresa', tag: 'input', type: 'text', required: true},
+				{label: 'Puntuacion de la charla', tag: 'input', type:'radio', required: true, childs : [ 
+			        {'value': '1', 'label': 'Buena'},
+			        {'value': '2', 'label': 'Regular'},
+			        {'value': '3', 'label': 'Una verga'}
+			    ]},
+
+	    	]},
+	    	{type: 'custom', tag: 'div', class: 'col-md-6', content: 'esto es otro div', },
+	    ]},
+
+	],
+	submit: submit
+
+}
+
+
+var survey = new Survey(json);
+survey.init();
+
+function submit(){
+	console.log('submit');
+}
+</script>
+</body>
+</html>
+
+
