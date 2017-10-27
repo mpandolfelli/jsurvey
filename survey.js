@@ -1,12 +1,24 @@
 /***************************************************************************/
-//	  ____                                                _   ____  		
-//	 / ___|   _   _   _ __  __   __   ___   _   _        | | / ___| 
-//	 \___ \  | | | | | '__| \ \ / /  / _ \ | | | |    _  | | \___ \ 
-//	  ___) | | |_| | | |     \ V /  |  __/ | |_| |   | |_| |  ___) |
-//	 |____/   \__,_| |_|      \_/    \___|  \__, |    \___/  |____/ 
-//	                                        |___/                   
-//	
 /***************************************************************************/
+/***************************************************************************/
+//            _    _____                                       
+//           | |  / ____|                                      
+//           | | | (___    _   _   _ __  __   __   ___   _   _ 
+//       _   | |  \___ \  | | | | | '__| \ \ / /  / _ \ | | | |
+//      | |__| |  ____) | | |_| | | |     \ V /  |  __/ | |_| |
+//       \____/  |_____/   \__,_| |_|      \_/    \___|  \__, |
+//                                                        __/ |
+//                                                       |___/ 
+//     
+/***************************************************************************/
+/***************************************************************************/
+/***************************************************************************/
+
+
+/**
+ * Constructor
+ * @param {[type]} json [description]
+ */
 var Survey = function(json){
 	this.json = json;
 	this.globalId = 1;
@@ -16,11 +28,17 @@ var Survey = function(json){
 	this.skipedQuestions = [];
 }
 
+
+/**
+ * Init
+ * Se encarga de iniciar la encuesta con los datos del json
+ */
 Survey.prototype.init = function(){
-	var script = document.createElement('script');
+	//TO DO: agregar sortable.js de esta manera
+	/*var script = document.createElement('script');
 	
 	script.src = "lib/Sortable.min.js";
-	document.getElementsByTagName('head')[0].appendChild(script);
+	document.getElementsByTagName('head')[0].appendChild(script);*/
 
 	this.surveyContainer = document.createElement('div');
 	this.surveyContainer.setAttribute('class', 'survey-container');
@@ -44,6 +62,10 @@ Survey.prototype.skipTo = function(skipToId){
 	}*/
 }
 
+/**
+ * Create form 
+ * Genera las preguntas del json y agrega los event listeners necesarios
+ */
 Survey.prototype.createForm = function(){
 	var that = this;
 	this.json.questions.forEach(function(el) {
@@ -52,6 +74,11 @@ Survey.prototype.createForm = function(){
 	this.addListeners();
 }
 
+/**
+ * Add Listeneres
+ * Agrega los listeners nesarios
+ * Se usa para agregar solamente listeners de SkipTo
+ */
 Survey.prototype.addListeners = function(){
 	var that = this;
 	var classname = document.getElementsByClassName('skip-to');
@@ -79,6 +106,12 @@ Survey.prototype.addListeners = function(){
 	    }, false);
 	}
 }
+
+/**
+ * Create Styles
+ * Se encarga de generar la estructura principal de la encuesta y agregar los estilos basicos.
+ * Agrega las demas propiedades del json (ej: title, banner, etc)
+ */
 Survey.prototype.createStyles = function(){
 	
 	var bannerContainer = document.createElement('div');
@@ -95,6 +128,13 @@ Survey.prototype.createStyles = function(){
 	document.title = this.json.options.title;
 }
 
+
+/**
+ * Create Input
+ * Crea unicamente input del type text/email
+ * @param  {[elemento HTML]} el [Elemento a crear]
+ * @return {[elemento]} Elemento Padre
+ */
 Survey.prototype.createInput = function(el){
 	
 	var parentElement = document.createElement('div');
@@ -118,14 +158,21 @@ Survey.prototype.createInput = function(el){
 	return parentElement;
 }
 
+
+/**
+ * Create radio
+ * Crea unicamente radio buttons
+ * @param  {[elemento HTML]} el  [elemento a crear]
+ * @param  {[type]} attrs [atributos del elemento principal]
+ * @param  {[Int]} newId [ID que debera llevar el elemento nuevo]
+ * @return {[elemento]} Elemento padre  
+ */
 Survey.prototype.createRadio = function(el, attrs, newId){
-	var c = 0;
 
 	var parentElement = document.createElement('div');
-	
 	var id = newId - 1;
-	
 	var label = document.createElement('label');
+
 	label.setAttribute('class', 'control control--radio');
 
  	var element = document.createElement(attrs.tag);
@@ -156,6 +203,11 @@ Survey.prototype.createRadio = function(el, attrs, newId){
 	return parentElement;
 }
 
+/**
+ * Create custom, se usa para generar elementos HTML dinamicos
+ * @param  {[elemento HTML]} el [Elemento a crear]
+ * @return {[elemento]}  Elemento
+ */
 Survey.prototype.createCustom = function(el){
 	
 	var that = this;
@@ -178,6 +230,12 @@ Survey.prototype.createCustom = function(el){
 
 }
 
+/**
+ * Create child, usada para crear elementos hijos:
+ * Pueden ser custom elemetns, o radio buttons, input text
+ * @param  {[elemento HTML]} el Elemento a crear
+ * @return {[elemento]}
+ */
 Survey.prototype.createChild = function(el){
 	var that = this;
 	var c = 0;
@@ -194,6 +252,7 @@ Survey.prototype.createChild = function(el){
 		container.appendChild(label);
 		el.childs.forEach(function(childsEl, type) {
 			element = that.createRadio(childsEl, attrs, id);
+			//En caso de radio buttons, la clase required se le asigna solamente al primer elemento
 			if(c < 1){
 				var radio = element.children[0];
 	 			radio.children[0].className +=' required';
@@ -210,6 +269,14 @@ Survey.prototype.createChild = function(el){
 	return element;
 }
 
+
+/**
+ * Create Sortable, usada para crear elementos ordenables en una lista
+ * (actualmente funciona solo con listas)
+ * Esta funcion ya inicializa el plugin sortable
+ * @param  {[elemento HTML]} 
+ * @return {[elemento]} Devuelve el elemento padre con la lista sortable dentro.
+ */
 Survey.prototype.createSortable = function(el){
 	var parentElement = document.createElement('div');
 	this.setSurveyId(parentElement, true);
@@ -225,6 +292,7 @@ Survey.prototype.createSortable = function(el){
 	});
 	parentElement.appendChild(ul);	
 	var sortable = Sortable.create(ul, {
+		//TO DO: Validacion del elemento, guardar el orden en un array cada vez que es ordenado
 		onUpdate: function (/**Event*/evt) {
 			console.log(evt);
 		}
@@ -235,6 +303,11 @@ Survey.prototype.createSortable = function(el){
 	return parentElement;
 }
 
+/**
+ * Create button, crea el boton se guardar, y le asigna el listener de validacion
+ * @param  {[elemento HTML]}
+ * @return {[elemento]} 
+ */
 Survey.prototype.createBtn = function(el){
 	var that = this;
 	var element = document.createElement('a');
@@ -248,6 +321,16 @@ Survey.prototype.createBtn = function(el){
 	return element;
 }	
 
+
+/**
+ * Create question
+ * Funcion generica que se encarga de dividir el tipo de elemento a crear 
+ * y derivarlo a su correspondiente funcion. Una vez creado cada elemento
+ * lo añade al contenedor del formulario
+ * 
+ * @param  {[elemento HTML]} el [description]
+ * 
+ */
 Survey.prototype.createQuestion = function(el){
 	var that = this;
 	var c = 0;
@@ -298,7 +381,13 @@ Survey.prototype.createQuestion = function(el){
 }
 
 
-
+/**
+ * SetId, se encarga de setearle un nuevo id al elemento correspondiente
+ * 
+ * @param {[elemento HTML} Elemento a setear ID
+ * @param {[boolean]} incrementar ID Global true/false
+ * @param {[int]} id  Setea un id especifico
+ */
 Survey.prototype.setId = function(el, increment, id){
 	if(id){
 		el.setAttribute('id', this.json.options.prefix+'-'+id);
