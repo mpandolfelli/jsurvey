@@ -2,7 +2,7 @@
 
 Crear encuestas a partir de un Json.
 
-## Getting Started
+## Empezar
 
 Para empezar hay que incluir los archivos correspondientes.
 
@@ -14,9 +14,9 @@ Para empezar hay que incluir los archivos correspondientes.
 	<script type="text/javascript" src="survey.js"></script>
 ```
 
-### Prerequisites
+### Pre requisitos
 
-Esta libreria funciona con las siguientes librerias de terceros
+Esta libreria funciona con las siguientes librerias de terceros (Todos incluidos en este repositorio)
 
 - Bootstrap
 - Jquery (Solo para Boostrap)
