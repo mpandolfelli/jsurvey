@@ -121,7 +121,7 @@ Survey.prototype.createStyles = function(){
 		banner.style.height = '240px';
 	}
 	
-	banner.innerHTML = 'survey js';
+	banner.innerHTML = this.json.options.title;
 	banner.setAttribute('class', 'sv-banner')
 	this.surveyContainer.appendChild(banner);
 
@@ -321,6 +321,14 @@ Survey.prototype.createBtn = function(el){
 	return element;
 }	
 
+Survey.prototype.showBubble = function(el, type){
+	console.log(el);
+	var bubble = document.createElement('div');
+	bubble.setAttribute('class', 'bubble bubble-'+type);
+	bubble.innerHTML = '<span class="glyphicon glyphicon-ok"></span>';
+	
+	el.appendChild(bubble);
+}
 
 /**
  * Create question
@@ -338,6 +346,7 @@ Survey.prototype.createQuestion = function(el){
 
 	if(el.type == 'text' || el.type == 'email'){
 		element = this.createInput(el);
+		
 		this.formContainer.appendChild(element);
 
 	}else if(el.type == 'radio'){
@@ -413,17 +422,20 @@ Survey.prototype.validate = function(){
 	console.log('validando...');
 	var elements = document.getElementsByClassName('required');
 	var radios = [];
-
+	var that = this;
 	for (var i = 0; i < elements.length; i++) {
 		
 		if(elements[i].type == 'text' || elements[i].type == 'email'){
 			if(elements[i].value == ''){
 				if(!elements[i].classList.contains('error')){
 					elements[i].className += " error";
+					that.showBubble(elements[i].parentNode, 'error');
 				}
 				
 			}else{
+				
 				elements[i].classList.remove('error');
+			
 			}
 		}else if(elements[i].type == 'radio'){
 			radios.push(elements[i]);

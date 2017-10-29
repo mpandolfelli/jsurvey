@@ -12,7 +12,9 @@
     h1,h2,h3,h4,h5{
       color: $headers-color;
     }
-
+    .form-group{
+      position: relative;
+    }
     /*
         Custom radio and checkboxes
      */
@@ -237,6 +239,27 @@
       border: 1px solid $error-color;
     }
 
+    .bubble{
+     
+      color: $error-buble-color;
+      padding-top: 5px;
+      position: absolute;
+      top: 10px;
+      font-size: 12px;
+      text-align: center;
+      right: 10px;
+      transition: all ease .4s;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      
+    }
+    .bubble-success{
+         background-color: $error-buble-success-background-color;
+      } 
+      .bubble-error{
+       background-color:  $error-buble-error-background-color;  
+      }
    
 
 

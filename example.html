@@ -14,30 +14,21 @@
 		html,body,.flex {
 		    height:100%;
 		    font-family: 'Roboto', sans-serif;
+		    background-color: #dedede
 		}
-		.wrapper{
-			height: 100%;
-			display: -ms-flexbox;
-			display: -webkit-box;
-			display: -moz-box;
-			display: -ms-box;
-			display: box;
-			-ms-flex-direction: row;
-			-webkit-box-orient: horizontal;
-			-moz-box-orient: horizontal;
-			-ms-box-orient: horizontal;
-			box-orient: horizontal;
-		}
-		.extra{
+		
+		/*.extra{
 			-ms-flex: 1;
 			-webkit-box-flex: 1;
 			-moz-box-flex: 1;
 			-ms-box-flex: 1;
 			box-flex: 1;
-		}
+		}*/
 		.survey{	
 			width: 600px;
-			flex: none;
+			margin: auto;
+			background-color: #fff;
+			
 		}
 		.bg{
 			background-image: url('pexels-photo-64778.jpeg');
@@ -68,10 +59,12 @@
 	</style>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper bg">
 		
-			<div class="extra bg"></div>
-			<div class="survey bg-verde" id="main"></div>
+			
+			<div class="survey bg-verde " id="main">
+				
+			</div>
 		
 	</div>
 	
@@ -81,7 +74,7 @@
 
 var json = {
 	options : {
-		title: 'Test survey',
+		title: 'JSurvey',
 		banner: '',
 		containerId: 'main',
 		prefix: 'question',
