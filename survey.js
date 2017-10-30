@@ -57,7 +57,7 @@ Survey.prototype.init = function(){
 Survey.prototype.skipTo = function(skipToId){
 	
 	/*for (var i = id; i >= skipToId; i++) {
-		var el = document.getElementById('question-'+i).style.display = 'none';;
+		var el = document.getElementById('question-'+i).style.display = 'none';
 		console.log('ocultando: '+el);
 	}*/
 }
@@ -329,6 +329,9 @@ Survey.prototype.showBubble = function(el, type){
 	
 	el.appendChild(bubble);
 }
+Survey.prototype.hideBubble = function(el){
+	el.lastChild.style.display = 'none';
+}
 
 /**
  * Create question
@@ -433,7 +436,7 @@ Survey.prototype.validate = function(){
 				}
 				
 			}else{
-				
+				that.hideBubble(elements[i].parentNode);
 				elements[i].classList.remove('error');
 			
 			}
@@ -456,10 +459,11 @@ Survey.prototype.validate = function(){
 		
         if (radio.length > 0){
         	radios[j].parentNode.parentNode.parentNode.classList.remove('error');
-        
+        	that.hideBubble(radios[j].parentNode.parentNode.parentNode);
         }else{
         	if(!radios[j].parentNode.parentNode.parentNode.classList.contains('error')){
         		radios[j].parentNode.parentNode.parentNode.className+= ' error';
+        		that.showBubble(radios[j].parentNode.parentNode.parentNode, 'error');
         	}
         }
     }
