@@ -477,13 +477,13 @@ Survey.prototype.recognition = function(){
 
 	var elements = document.getElementsByClassName('speech-input');
 
-	for (var i = 0; i < elements.length; i++) {
+	[].forEach.call(elements, function(inputEl) {
 		
 		var mic = document.createElement('button');
 		mic.type = 'button';
 		mic.textContent = 'speech input';
-		console.log(elements[i].parentNode);
-		elements[i].parentNode.appendChild(mic);
+		
+		inputEl.parentNode.appendChild(mic);
 		var recognition =  new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 		recognition.continuous = true;
 		recognition.interimResults = true;
@@ -505,7 +505,7 @@ Survey.prototype.recognition = function(){
 		recognition.onresult = function(event) {
 			clearTimeout(timeout);
 		    console.log('Dijiste: ', event.results[0][0].transcript);
-		    elements[i].value = event.results[0][0].transcript;
+		    inputEl.value = event.results[0][0].transcript;
 		    restartTimer();
 		};
 		recognition.onend = function() {
@@ -524,6 +524,6 @@ Survey.prototype.recognition = function(){
 			
 			recognition.start();
 		}, false);
-	}
+	});
 	
 }
