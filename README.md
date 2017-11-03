@@ -5,7 +5,7 @@ Crear encuestas a partir de un Json.
 
 ##Ejemplo
 
-**
+```javascript
 var json = {
 	options : {
 		title: 'JSurvey',
@@ -59,4 +59,4 @@ var json = {
 var survey = new Survey(json);
 survey.init();
 
-**
+```
