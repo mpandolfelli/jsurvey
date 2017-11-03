@@ -1,15 +1,15 @@
 /***************************************************************************/
 /***************************************************************************/
 /***************************************************************************/
-//            _    _____                                       
-//           | |  / ____|                                      
-//           | | | (___    _   _   _ __  __   __   ___   _   _ 
-//       _   | |  \___ \  | | | | | '__| \ \ / /  / _ \ | | | |
-//      | |__| |  ____) | | |_| | | |     \ V /  |  __/ | |_| |
-//       \____/  |_____/   \__,_| |_|      \_/    \___|  \__, |
-//                                                        __/ |
-//                                                       |___/ 
-//     
+//            _    _____                                       			   //
+//           | |  / ____|                                      			   //	
+//           | | | (___    _   _   _ __  __   __   ___   _   _ 			   //	
+//       _   | |  \___ \  | | | | | '__| \ \ / /  / _ \ | | | |            //
+//      | |__| |  ____) | | |_| | | |     \ V /  |  __/ | |_| |            //
+//       \____/  |_____/   \__,_| |_|      \_/    \___|  \__, |            //
+//                                                        __/ |            //
+//                                                       |___/             //
+//      																   //	
 /***************************************************************************/
 /***************************************************************************/
 /***************************************************************************/
@@ -142,6 +142,7 @@ Survey.prototype.createInput = function(el){
 	var label = document.createElement('label');
 
  	var element = document.createElement(el.tag);
+ 	element.setAttribute('x-webkit-speech', 'x-webkit-speech');
 	element.setAttribute('type', el.type);
 	element.setAttribute('class', 'form-control');
 	this.setId(element, true);
@@ -325,7 +326,7 @@ Survey.prototype.showBubble = function(el, type){
 	console.log(el);
 	var bubble = document.createElement('div');
 	bubble.setAttribute('class', 'bubble bubble-'+type);
-	bubble.innerHTML = '<span class="glyphicon glyphicon-ok"></span>';
+	bubble.innerHTML = '<span class="glyphicon glyphicon-exclamation-sign"></span>';
 	
 	el.appendChild(bubble);
 }
@@ -436,8 +437,10 @@ Survey.prototype.validate = function(){
 				}
 				
 			}else{
-				that.hideBubble(elements[i].parentNode);
-				elements[i].classList.remove('error');
+				if(elements[i].classList.contains('error')){
+					that.hideBubble(elements[i].parentNode);
+					elements[i].classList.remove('error');
+				}
 			
 			}
 		}else if(elements[i].type == 'radio'){

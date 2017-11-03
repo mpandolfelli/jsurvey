@@ -196,22 +196,18 @@
     .survey-container .survey-submit:hover {
       background-color: #3FC380; }
   .survey-container .error {
-    border: 1px solid #c0392b; }
+    /*border: 1px solid $error-color;*/ }
   .survey-container .bubble {
-    color: #fff;
-    padding-top: 5px;
     position: absolute;
     top: 10px;
-    font-size: 12px;
     text-align: center;
     right: 10px;
-    transition: all ease .4s;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px; }
-  .survey-container .bubble-success {
-    background-color: #21ba45; }
-  .survey-container .bubble-error {
-    background-color: #db2828; }
+    transition: all ease .4s; }
+    .survey-container .bubble span {
+      font-size: 22px; }
+  .survey-container .bubble-success span {
+    color: #21ba45; }
+  .survey-container .bubble-error span {
+    color: #db2828; }
 
 /*# sourceMappingURL=survey.css.map */

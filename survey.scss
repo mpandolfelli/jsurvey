@@ -236,29 +236,29 @@
     }
 
     .error{
-      border: 1px solid $error-color;
+      /*border: 1px solid $error-color;*/
     }
 
     .bubble{
      
-      color: $error-buble-color;
-      padding-top: 5px;
+    
       position: absolute;
       top: 10px;
-      font-size: 12px;
+      
       text-align: center;
       right: 10px;
       transition: all ease .4s;
-      border-radius: 50%;
-      width: 25px;
-      height: 25px;
       
+      span{
+           
+          font-size: 22px;
+      }
     }
-    .bubble-success{
-         background-color: $error-buble-success-background-color;
+    .bubble-success span{
+         color: $error-buble-success-background-color;
       } 
-      .bubble-error{
-       background-color:  $error-buble-error-background-color;  
+      .bubble-error span{
+       color:  $error-buble-error-background-color;  
       }
    
 
