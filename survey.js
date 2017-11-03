@@ -478,7 +478,12 @@ Survey.prototype.recognition = function(){
 	var elements = document.getElementsByClassName('speech-input');
 
 	for (var i = 0; i < elements.length; i++) {
-		console.log(elements[i].value);
+		
+		var mic = document.createElement('button');
+		mic.type = 'button';
+		mic.textContent = 'speech input';
+		console.log(elements[i].parentNode);
+		elements[i].parentNode.appendChild(mic);
 		var recognition =  new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 		recognition.continuous = true;
 		recognition.interimResults = true;
@@ -507,7 +512,7 @@ Survey.prototype.recognition = function(){
 			recognizing = false;
 			clearTimeout(timeout);
 		}
-		elements[i].addEventListener('click', function(event) {
+		mic.addEventListener('click', function(event) {
 			event.preventDefault();
 
 			// stop and exit if already going
