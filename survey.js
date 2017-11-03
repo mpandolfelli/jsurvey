@@ -504,8 +504,8 @@ Survey.prototype.recognition = function(){
 		    restartTimer();
 		};
 		recognition.onend = function() {
-			clearTimeout(timeout);
 			recognizing = false;
+			clearTimeout(timeout);
 		}
 		elements[i].addEventListener('click', function(event) {
 			event.preventDefault();
