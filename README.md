@@ -3,7 +3,7 @@
 Crear encuestas a partir de un Json.
 
 
-##Ejemplo
+#Ejemplo
 
 ```javascript
 var json = {
@@ -26,7 +26,7 @@ var json = {
 				{label: 'Charla', tag: 'input', type:'radio', required: true, childs : [ 
 			        {'value': '1', 'label': 'Buena', skipTo: 8},
 			        {'value': '2', 'label': 'Regular'},
-			        {'value': '3', 'label': 'Una verga'}
+			        {'value': '3', 'label': 'Mala'}
 			    ]},
 
 	    	]},
@@ -34,7 +34,7 @@ var json = {
 				{label: 'Contenidos', tag: 'input', type:'radio', required: true, childs : [ 
 			        {'value': '1', 'label': 'Buena'},
 			        {'value': '2', 'label': 'Regular'},
-			        {'value': '3', 'label': 'Una verga'}
+			        {'value': '3', 'label': 'Mala'}
 			    ]},
 
 	    	]},
