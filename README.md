@@ -3,7 +3,7 @@
 Crear encuestas a partir de un Json.
 
 
-#Ejemplo
+## Ejemplo
 
 ```javascript
 var json = {
