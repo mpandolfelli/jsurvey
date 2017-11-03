@@ -501,6 +501,7 @@ Survey.prototype.recognition = function(){
 			clearTimeout(timeout);
 		    console.log('Dijiste: ', event.results[0][0].transcript);
 		    elements[i].value = event.results[0][0].transcript;
+		    restartTimer();
 		};
 		recognition.onend = function() {
 			clearTimeout(timeout);
