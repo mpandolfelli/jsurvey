@@ -51,7 +51,7 @@ Survey.prototype.init = function(){
 	container.appendChild(this.surveyContainer);
 	
 	this.createForm();	
-	
+	this.recognition();
 }
 
 Survey.prototype.skipTo = function(skipToId){
@@ -142,9 +142,9 @@ Survey.prototype.createInput = function(el){
 	var label = document.createElement('label');
 
  	var element = document.createElement(el.tag);
- 	element.setAttribute('x-webkit-speech', 'x-webkit-speech');
+ 	//element.setAttribute('x-webkit-speech', 'x-webkit-speech');
 	element.setAttribute('type', el.type);
-	element.setAttribute('class', 'form-control');
+	element.setAttribute('class', 'form-control speech-input');
 	this.setId(element, true);
 	if(el.required){
 		element.className +=' required';
@@ -471,4 +471,42 @@ Survey.prototype.validate = function(){
         }
     }
    
+}
+
+Survey.prototype.recognition = function(){
+
+	var elements = document.getElementsByClassName('speech-input');
+
+	for (var i = 0; i < elements.length; i++) {
+		console.log('Escuchando');
+		var recognition =  new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+		recognition.continuous = true;
+		recognition.interimResults = true;
+		var recognizing = false;
+
+		recognition.onstart = function() {
+			recognizing = true;
+			
+		};
+		recognition.onresult = function(event) {
+		    console.log('Dijiste: ', event.results[0][0].transcript);
+		    elements[i].value = event.results[0][0].transcript;
+		};
+		recognition.onend = function() {
+			recognizing = false;
+		}
+		elements[i].addEventListener('click', function(event) {
+			event.preventDefault();
+
+			// stop and exit if already going
+			if (recognizing) {
+				recognition.stop();
+				return;
+			}
+
+			
+			recognition.start();
+		}, false);
+	}
+	
 }
