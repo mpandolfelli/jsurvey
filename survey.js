@@ -478,21 +478,32 @@ Survey.prototype.recognition = function(){
 	var elements = document.getElementsByClassName('speech-input');
 
 	for (var i = 0; i < elements.length; i++) {
-		console.log('Escuchando');
+		console.log(elements[i].value);
 		var recognition =  new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 		recognition.continuous = true;
 		recognition.interimResults = true;
+		recognition.lang = 'es-AR';
 		var recognizing = false;
+		var timeout;
+		var patience = 10;
+		function restartTimer() {
+			timeout = setTimeout(function() {
+				recognition.stop();
+			}, patience * 1000);
+		}
 
 		recognition.onstart = function() {
 			recognizing = true;
+			restartTimer();
 			
 		};
 		recognition.onresult = function(event) {
+			clearTimeout(timeout);
 		    console.log('Dijiste: ', event.results[0][0].transcript);
 		    elements[i].value = event.results[0][0].transcript;
 		};
 		recognition.onend = function() {
+			clearTimeout(timeout);
 			recognizing = false;
 		}
 		elements[i].addEventListener('click', function(event) {
