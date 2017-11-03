@@ -209,5 +209,12 @@
     color: #21ba45; }
   .survey-container .bubble-error span {
     color: #db2828; }
+  .survey-container .mic-icon {
+    position: absolute;
+    top: 39px;
+    font-size: 22px;
+    text-align: center;
+    right: 14px;
+    color: #66BB6A; }
 
 /*# sourceMappingURL=survey.css.map */

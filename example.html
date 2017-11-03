@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="survey.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Ubuntu" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="survey.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 
 	<style type="text/css">
 		html,body,.flex {
@@ -82,9 +83,9 @@ var json = {
 	},
 	questions: [
 		{type: 'title', size: 'h4', text: 'Crea grandes encuestas a partir de un json'},
-		{label: 'Nombre', tag: 'input', type: 'text', placeholder: 'Nombre', required: true},
-		{label: 'Apellido', tag: 'input', type: 'text', required: false},
-		{label: 'Empresa', tag: 'input', type: 'text', required: true},
+		{label: 'Nombre', tag: 'input', type: 'text', placeholder: 'Nombre', required: true, speechDetection: true},
+		{label: 'Apellido', tag: 'input', type: 'text', required: false, speechDetection: true},
+		{label: 'Empresa', tag: 'input', type: 'text', required: true, speechDetection: true},
 		{label: 'Email', tag: 'input', type: 'email', required: true},
 		{type: 'title', size: 'h4', text: 'Sobre la charla'},
 	    {type: 'custom', tag: 'div', class: 'row', childs: [

@@ -144,10 +144,15 @@ Survey.prototype.createInput = function(el){
  	var element = document.createElement(el.tag);
  	//element.setAttribute('x-webkit-speech', 'x-webkit-speech');
 	element.setAttribute('type', el.type);
-	element.setAttribute('class', 'form-control speech-input');
+	element.setAttribute('class', 'form-control');
 	this.setId(element, true);
 	if(el.required){
 		element.className +=' required';
+	}
+	if(el.type == 'text'){
+		if(el.speechDetection){
+			element.className +=' speech-input';
+		}
 	}
 	if(el.placeholder){
 		element.placeholder = el.placeholder;
@@ -479,9 +484,10 @@ Survey.prototype.recognition = function(){
 
 	[].forEach.call(elements, function(inputEl) {
 		
-		var mic = document.createElement('button');
-		mic.type = 'button';
-		mic.textContent = 'speech input';
+		var mic = document.createElement('a');
+		mic.setAttribute('class', 'mic-icon');
+		//mic.type = 'button';
+		mic.innerHTML = '<i class="fa fa-microphone" aria-hidden="true"></i>';
 		
 		inputEl.parentNode.appendChild(mic);
 		var recognition =  new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
