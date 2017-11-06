@@ -57,14 +57,6 @@ Survey.prototype.init = function(){
 	this.recognition();
 }
 
-Survey.prototype.skipTo = function(skipToId){
-	
-	/*for (var i = id; i >= skipToId; i++) {
-		var el = document.getElementById('question-'+i).style.display = 'none';
-		console.log('ocultando: '+el);
-	}*/
-}
-
 /**
  * Create form 
  * Genera las preguntas del json y agrega los event listeners necesarios
