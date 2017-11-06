@@ -217,5 +217,7 @@
     right: 14px;
     cursor: pointer;
     color: #66BB6A; }
+  .survey-container div {
+    position: relative; }
 
 /*# sourceMappingURL=survey.css.map */

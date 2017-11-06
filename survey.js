@@ -13,11 +13,12 @@
 /***************************************************************************/
 /***************************************************************************/
 /***************************************************************************/
+'use strict';
 
 
 /**
  * Constructor
- * @param {[type]} json [description]
+ * @param {[json]}
  */
 var Survey = function(json){
 	this.json = json;
@@ -26,6 +27,8 @@ var Survey = function(json){
 	this.surveyContainer;
 	this.formContainer;
 	this.skipedQuestions = [];
+	this.sortableValidate = false;
+	this.sortableAnswer = [];
 }
 
 
@@ -218,7 +221,7 @@ Survey.prototype.createCustom = function(el){
 	
 	var that = this;
 	var parentElement = document.createElement(el.tag);
-	
+	var childElement;
 	parentElement.setAttribute('class', el.class);
 	if(typeof el.content !== 'undefined'){
 		parentElement.innerHTML = el.content;
@@ -244,6 +247,7 @@ Survey.prototype.createCustom = function(el){
  */
 Survey.prototype.createChild = function(el){
 	var that = this;
+	var element;
 	var c = 0;
 	if(el.type == 'custom'){
 		element = this.createCustom(el);
@@ -285,9 +289,16 @@ Survey.prototype.createChild = function(el){
  */
 Survey.prototype.createSortable = function(el){
 	var parentElement = document.createElement('div');
+	var element;
+	var sortableElement;
+	var that = this;
+
 	this.setSurveyId(parentElement, true);
 	var ul = document.createElement('ul');
 	ul.setAttribute('class', el.class+' sortable');
+	if(el.required){
+		ul.className +=' required';
+	}
 	var id = this.setId(ul, true);
 	el.childs.forEach(function(childsEl, type) {
 		element = document.createElement('li');
@@ -299,8 +310,14 @@ Survey.prototype.createSortable = function(el){
 	parentElement.appendChild(ul);	
 	var sortable = Sortable.create(ul, {
 		//TO DO: Validacion del elemento, guardar el orden en un array cada vez que es ordenado
-		onUpdate: function (/**Event*/evt) {
-			console.log(evt);
+		onSort: function (/**Event*/evt) {
+			that.sortableAnswer = [];
+			that.sortableValidate = true;
+			var items = evt.from.getElementsByTagName("li");
+			for (var i = 0; i < items.length; i++) {
+				that.sortableAnswer.push(items[i].innerHTML);
+				
+			}
 		}
 	}
 		
@@ -428,8 +445,9 @@ Survey.prototype.setSurveyId = function(el, increment){
 
 
 Survey.prototype.validate = function(){
-	console.log('validando...');
+	
 	var elements = document.getElementsByClassName('required');
+	var sortables = document.getElementsByClassName('sortable');
 	var radios = [];
 	var that = this;
 	for (var i = 0; i < elements.length; i++) {
@@ -453,14 +471,41 @@ Survey.prototype.validate = function(){
 
 			
 		}else if(elements[i].type == 'sortable'){
-
+			console.log('test');
+			
 		}
 		
 	}
 
+	for (var k = 0; k < sortables.length; k++) {
+		console.log(sortables[k]);
+		if(!that.sortableValidate){
 
+			if(!sortables[k].classList.contains('error')){
+				sortables[k].className += " error";
+				that.showBubble(sortables[k].parentNode, 'error');
+			}
+		}else{
+			if(sortables[k].classList.contains('error')){
+					that.hideBubble(sortables[k].parentNode);
+					sortables[k].classList.remove('error');
+			}
+		}
+	}
+	/*if(!that.sortableValidate){
 
-	for (j = 0; j < radios.length; ++ j){
+		if(!elements[i].classList.contains('error')){
+			elements[i].className += " error";
+			that.showBubble(elements[i].parentNode, 'error');
+		}else{
+			if(elements[i].classList.contains('error')){
+				that.hideBubble(elements[i].parentNode);
+				elements[i].classList.remove('error');
+			}
+		}
+	}*/
+
+	for (var j = 0; j < radios.length; ++ j){
 
 		var radioName = radios[j].getAttribute("name"); 
 		var radio = document.querySelectorAll('input[name="'+radioName+'"]:checked');
@@ -486,7 +531,6 @@ Survey.prototype.recognition = function(){
 		
 		var mic = document.createElement('a');
 		mic.setAttribute('class', 'mic-icon');
-		//mic.type = 'button';
 		mic.innerHTML = '<i class="fa fa-microphone" aria-hidden="true"></i>';
 		
 		inputEl.parentNode.appendChild(mic);
