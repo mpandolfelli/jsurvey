@@ -462,40 +462,29 @@ Survey.prototype.validate = function(){
 			radios.push(elements[i]);
 
 			
-		}else if(elements[i].type == 'sortable'){
-			console.log('test');
-			
 		}
 		
 	}
 
 	for (var k = 0; k < sortables.length; k++) {
-		console.log(sortables[k]);
+		
 		if(!that.sortableValidate){
 
 			if(!sortables[k].classList.contains('error')){
 				sortables[k].className += " error";
 				that.showBubble(sortables[k].parentNode, 'error');
+				that.sortableValidate = false;
 			}
 		}else{
 			if(sortables[k].classList.contains('error')){
-					that.hideBubble(sortables[k].parentNode);
-					sortables[k].classList.remove('error');
+				that.hideBubble(sortables[k].parentNode);
+				sortables[k].classList.remove('error');
+				that.sortableValidate = true;
 			}
 		}
 	}
-	/*if(!that.sortableValidate){
 
-		if(!elements[i].classList.contains('error')){
-			elements[i].className += " error";
-			that.showBubble(elements[i].parentNode, 'error');
-		}else{
-			if(elements[i].classList.contains('error')){
-				that.hideBubble(elements[i].parentNode);
-				elements[i].classList.remove('error');
-			}
-		}
-	}*/
+	
 
 	for (var j = 0; j < radios.length; ++ j){
 
@@ -503,16 +492,21 @@ Survey.prototype.validate = function(){
 		var radio = document.querySelectorAll('input[name="'+radioName+'"]:checked');
 		
         if (radio.length > 0){
-        	radios[j].parentNode.parentNode.parentNode.classList.remove('error');
-        	that.hideBubble(radios[j].parentNode.parentNode.parentNode);
+        	if(radios[j].parentNode.parentNode.parentNode.classList.contains('error')){
+	        	radios[j].parentNode.parentNode.parentNode.classList.remove('error');
+	        	that.hideBubble(radios[j].parentNode.parentNode.parentNode);
+        	}
+        
         }else{
         	if(!radios[j].parentNode.parentNode.parentNode.classList.contains('error')){
         		radios[j].parentNode.parentNode.parentNode.className+= ' error';
         		that.showBubble(radios[j].parentNode.parentNode.parentNode, 'error');
+        		
         	}
         }
     }
-   
+
+    
 }
 
 Survey.prototype.recognition = function(){

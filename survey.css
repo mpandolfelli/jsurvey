@@ -16,7 +16,8 @@
       Custom radio and checkboxes
    */ }
   .survey-container h1, .survey-container h2, .survey-container h3, .survey-container h4, .survey-container h5 {
-    color: #333; }
+    color: #333;
+    margin: 50px 0 20px 0; }
   .survey-container .form-group {
     position: relative; }
   .survey-container .control-group {
