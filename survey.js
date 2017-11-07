@@ -29,6 +29,7 @@ var Survey = function(json){
 	this.skipedQuestions = [];
 	this.sortableValidate = false;
 	this.sortableAnswer = [];
+	this.validateRadios = false;
 }
 
 
@@ -43,8 +44,9 @@ Survey.prototype.init = function(){
 	script.src = "lib/Sortable.min.js";
 	document.getElementsByTagName('head')[0].appendChild(script);*/
 
-	this.surveyContainer = document.createElement('div');
+	this.surveyContainer = document.createElement('form');
 	this.surveyContainer.setAttribute('class', 'survey-container');
+	this.surveyContainer.setAttribute('id', 'jsurvey-form');
 	
 	this.formContainer = document.createElement('div');
 	this.formContainer.setAttribute('class', 'container-fluid');
@@ -140,7 +142,8 @@ Survey.prototype.createInput = function(el){
  	//element.setAttribute('x-webkit-speech', 'x-webkit-speech');
 	element.setAttribute('type', el.type);
 	element.setAttribute('class', 'form-control');
-	this.setId(element, true);
+	var id = this.setId(element, true) - 1;
+	element.setAttribute('name', this.json.options.prefix+'-'+id);
 	if(el.required){
 		element.className +=' required';
 	}
@@ -331,7 +334,10 @@ Survey.prototype.createBtn = function(el){
 	element.id = 'submit';
 	element.innerHTML = el.text;
 	element.addEventListener('click',  function(){
-		that.validate();
+		if(that.validate()){
+			that.post(that.json.options.apiUrl, 'post', that.getFormData());
+			
+		}
 	});
 	return element;
 }	
@@ -441,23 +447,16 @@ Survey.prototype.validate = function(){
 	var elements = document.getElementsByClassName('required');
 	var sortables = document.getElementsByClassName('sortable');
 	var radios = [];
+	var inputsText = [];
 	var that = this;
+	
+	
+
 	for (var i = 0; i < elements.length; i++) {
 		
 		if(elements[i].type == 'text' || elements[i].type == 'email'){
-			if(elements[i].value == ''){
-				if(!elements[i].classList.contains('error')){
-					elements[i].className += " error";
-					that.showBubble(elements[i].parentNode, 'error');
-				}
-				
-			}else{
-				if(elements[i].classList.contains('error')){
-					that.hideBubble(elements[i].parentNode);
-					elements[i].classList.remove('error');
-				}
+			inputsText.push(elements[i]);
 			
-			}
 		}else if(elements[i].type == 'radio'){
 			radios.push(elements[i]);
 
@@ -465,6 +464,8 @@ Survey.prototype.validate = function(){
 		}
 		
 	}
+
+	var validateInputs = that.validateInputs(inputsText);
 
 	for (var k = 0; k < sortables.length; k++) {
 		
@@ -495,18 +496,50 @@ Survey.prototype.validate = function(){
         	if(radios[j].parentNode.parentNode.parentNode.classList.contains('error')){
 	        	radios[j].parentNode.parentNode.parentNode.classList.remove('error');
 	        	that.hideBubble(radios[j].parentNode.parentNode.parentNode);
+	        	
         	}
-        
+        	that.validateRadios = true;
         }else{
         	if(!radios[j].parentNode.parentNode.parentNode.classList.contains('error')){
         		radios[j].parentNode.parentNode.parentNode.className+= ' error';
         		that.showBubble(radios[j].parentNode.parentNode.parentNode, 'error');
         		
         	}
+        	that.validateRadios = false;
         }
     }
 
+   
+    if(validateInputs && that.validateRadios && that.sortableValidate){
+    	return true;
+
+    }else{
+    	return false;
+    }
     
+}
+
+Survey.prototype.validateInputs = function(inputs){
+	var that = this;
+	var validate = true;
+	for (var i = 0; i < inputs.length; i++) {
+		if(inputs[i].value == ''){
+			if(!inputs[i].classList.contains('error')){
+				inputs[i].className += " error";
+				that.showBubble(inputs[i].parentNode, 'error');
+				validate = false;
+			}
+			
+		}else{
+			if(inputs[i].classList.contains('error')){
+				that.hideBubble(inputs[i].parentNode);
+				inputs[i].classList.remove('error');
+				
+			}
+		
+		}
+	}
+	return validate;
 }
 
 Survey.prototype.recognition = function(){
@@ -561,5 +594,50 @@ Survey.prototype.recognition = function(){
 			recognition.start();
 		}, false);
 	});
+	
+}
+
+Survey.prototype.getFormData = function(){
+	var formData = [];
+ 	var form = document.getElementById("jsurvey-form");
+  	for(var i=0; i < form.elements.length; i++){
+	    var e = form.elements[i];
+	    var objectData = {};
+	   	var radioData = {};
+
+	   	if(e.type === 'text' || e.type === 'email'){
+	   		objectData.fieldName = e.name;
+	    	objectData.fieldValue = e.value;
+	    	formData.push(objectData);
+
+	   	}else if(e.type === 'radio' && e.checked){
+	   		radioData.fieldName = e.name;
+	    	radioData.fieldValue = e.value;
+	    	formData.push(radioData);
+	   	}
+ 		
+	}
+	formData.push(this.sortableAnswer);
+	console.log(formData);
+	return formData;
+}
+
+Survey.prototype.post = function(url, method, data){
+	var request = new XMLHttpRequest();   // new HttpRequest instance 
+	request.open(method, url);
+	request.setRequestHeader("Content-Type", "application/json");
+	request.send(JSON.stringify({name:"John Rambo", time:"2pm"}));
+
+	request.onreadystatechange = showResponse;
+
+	function showResponse(){
+		if (request.readyState == 4) {
+            if (request.status == 200) {
+                console.log(request.responseText);
+            } else {
+                console.log('Hubo problemas con la petición.');
+            }
+        }
+	}
 	
 }
