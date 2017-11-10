@@ -151,7 +151,10 @@
     .select select:disabled ~ .select__arrow {
       border-top-color: #ccc;
     }
-    .checkbox label, .radio label{
+    .checkbox label{
+      padding-left: 28px;
+    }
+    .radio label{
       padding-left: 28px;
     }
     label{

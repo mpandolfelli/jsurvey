@@ -128,7 +128,9 @@
     border-top-color: #000; }
   .survey-container .select select:disabled ~ .select__arrow {
     border-top-color: #ccc; }
-  .survey-container .checkbox label, .survey-container .radio label {
+  .survey-container .checkbox label {
+    padding-left: 28px; }
+  .survey-container .radio label {
     padding-left: 28px; }
   .survey-container label {
     color: #555; }

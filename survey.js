@@ -30,6 +30,7 @@ var Survey = function(json){
 	this.sortableValidate = false;
 	this.sortableAnswer = [];
 	this.validateRadios = false;
+	this.validateCheckboxs = false;
 }
 
 
@@ -207,6 +208,43 @@ Survey.prototype.createRadio = function(el, attrs, newId){
 	return parentElement;
 }
 
+
+Survey.prototype.createCheckbox = function(el, attrs, newId){
+
+	var parentElement = document.createElement('div');
+	var id = newId - 1;
+	var label = document.createElement('label');
+
+	label.setAttribute('class', 'control control--checkbox');
+
+ 	var element = document.createElement(attrs.tag);
+ 	
+ 	element.setAttribute('type', attrs.type);
+ 	element.setAttribute('value', el.value);
+ 	element.setAttribute('name', this.json.options.prefix+'-'+id+'[]');
+ 	
+
+	if(el.skipTo){
+		element.setAttribute('data-skip', el.skipTo);
+		element.setAttribute('data-id', id);
+		element.setAttribute('class', 'skip-to');
+	}else{
+		element.setAttribute('class', 'not-skip');
+	}
+
+ 	
+	parentElement.setAttribute('class', 'checkbox');
+		
+	var helperDiv = document.createElement('div');
+	helperDiv.setAttribute('class', 'control__indicator');
+	label.innerHTML = el.label;
+	label.appendChild(element);
+	label.appendChild(helperDiv);
+
+	parentElement.appendChild(label);
+	return parentElement;
+}
+
 /**
  * Create custom, se usa para generar elementos HTML dinamicos
  * @param  {[elemento HTML]} el [Elemento a crear]
@@ -256,7 +294,29 @@ Survey.prototype.createChild = function(el){
 		var id = this.setSurveyId(container, true);
 		container.appendChild(label);
 		el.childs.forEach(function(childsEl, type) {
+
 			element = that.createRadio(childsEl, attrs, id);
+			//En caso de radio buttons, la clase required se le asigna solamente al primer elemento
+			if(c < 1){
+				var radio = element.children[0];
+	 			radio.children[0].className +=' required';
+	 			c++;
+	 		}
+			container.appendChild(element);
+		});
+
+		element = container;
+
+	}else if(el.type == 'checkbox'){
+		var attrs = el;
+		var label = document.createElement('label');
+		label.innerHTML = el.label;
+		var container = document.createElement('div');
+		var id = this.setSurveyId(container, true);
+		container.appendChild(label);
+		el.childs.forEach(function(childsEl, type) {
+			
+			element = that.createCheckbox(childsEl, attrs, id);
 			//En caso de radio buttons, la clase required se le asigna solamente al primer elemento
 			if(c < 1){
 				var radio = element.children[0];
@@ -329,13 +389,16 @@ Survey.prototype.createSortable = function(el){
 Survey.prototype.createBtn = function(el){
 	var that = this;
 	var element = document.createElement('a');
+	var surveyData = {};
 	element.setAttribute('href', 'javascript:void(0);');
 	element.setAttribute('class', el.class+' survey-submit');
 	element.id = 'submit';
 	element.innerHTML = el.text;
 	element.addEventListener('click',  function(){
 		if(that.validate()){
-			that.post(that.json.options.apiUrl, 'post', that.getFormData());
+			surveyData.form =  that.json.options.name;
+			surveyData.formData = that.getFormData();
+			that.post(that.json.options.apiUrl, 'post', surveyData);
 			
 		}
 	});
@@ -381,6 +444,26 @@ Survey.prototype.createQuestion = function(el){
 		this.formContainer.appendChild(label);
 		el.childs.forEach(function(childsEl, type) {
 			element = that.createRadio(childsEl, attrs);
+			
+	 		if(c < 1){
+
+	 			element.className +=' required';
+	 			c++;
+	 		}
+				
+			
+			that.formContainer.appendChild(element);
+		});
+			
+		
+	}else if(el.type == 'checkbox'){
+		
+		var attrs = el;
+		var label = document.createElement('label');
+		label.innerHTML = el.label;
+		this.formContainer.appendChild(label);
+		el.childs.forEach(function(childsEl, type) {
+			element = that.createCheckbox(childsEl, attrs);
 			
 	 		if(c < 1){
 
@@ -447,6 +530,7 @@ Survey.prototype.validate = function(){
 	var elements = document.getElementsByClassName('required');
 	var sortables = document.getElementsByClassName('sortable');
 	var radios = [];
+	var checkboxs = [];
 	var inputsText = [];
 	var that = this;
 	
@@ -459,6 +543,10 @@ Survey.prototype.validate = function(){
 			
 		}else if(elements[i].type == 'radio'){
 			radios.push(elements[i]);
+
+			
+		}else if(elements[i].type == 'checkbox'){
+			checkboxs.push(elements[i]);
 
 			
 		}
@@ -509,8 +597,29 @@ Survey.prototype.validate = function(){
         }
     }
 
+    for (var j = 0; j < checkboxs.length; ++ j){
+
+		var checkboxName = checkboxs[j].getAttribute("name"); 
+		var checkbox = document.querySelectorAll('input[name="'+checkboxName+'"]:checked');
+		
+        if (checkbox.length > 0){
+        	if(checkboxs[j].parentNode.parentNode.parentNode.classList.contains('error')){
+	        	checkboxs[j].parentNode.parentNode.parentNode.classList.remove('error');
+	        	that.hideBubble(checkboxs[j].parentNode.parentNode.parentNode);
+	        	
+        	}
+        	that.validateCheckboxs = true;
+        }else{
+        	if(!checkboxs[j].parentNode.parentNode.parentNode.classList.contains('error')){
+        		checkboxs[j].parentNode.parentNode.parentNode.className+= ' error';
+        		that.showBubble(checkboxs[j].parentNode.parentNode.parentNode, 'error');
+        		
+        	}
+        	that.validateCheckboxs = false;
+        }
+    }
    
-    if(validateInputs && that.validateRadios && that.sortableValidate){
+    if(validateInputs && that.validateRadios && that.validateCheckboxs && that.sortableValidate){
     	return true;
 
     }else{
@@ -604,6 +713,7 @@ Survey.prototype.getFormData = function(){
 	    var e = form.elements[i];
 	    var objectData = {};
 	   	var radioData = {};
+	   	var checkboxData = {};
 
 	   	if(e.type === 'text' || e.type === 'email'){
 	   		objectData.fieldName = e.name;
@@ -614,6 +724,10 @@ Survey.prototype.getFormData = function(){
 	   		radioData.fieldName = e.name;
 	    	radioData.fieldValue = e.value;
 	    	formData.push(radioData);
+	   	}else if(e.type === 'checkbox' && e.checked){
+	   		checkboxData.fieldName = e.name;
+	    	checkboxData.fieldValue = e.value;
+	    	formData.push(checkboxData);
 	   	}
  		
 	}
@@ -626,7 +740,7 @@ Survey.prototype.post = function(url, method, data){
 	var request = new XMLHttpRequest();   // new HttpRequest instance 
 	request.open(method, url);
 	request.setRequestHeader("Content-Type", "application/json");
-	request.send(JSON.stringify({name:"John Rambo", time:"2pm"}));
+	request.send(JSON.stringify({data: data}));
 
 	request.onreadystatechange = showResponse;
 

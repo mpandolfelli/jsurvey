@@ -78,22 +78,20 @@ var json = {
 		apiUrl: 'http://localhost/jadmin/api/addResults'
 	},
 	questions: [
-		{type: 'title', size: 'h4', text: 'Crea grandes encuestas a partir de un json'},
-		{label: 'Nombre', tag: 'input', type: 'text', placeholder: 'Nombre', required: true, speechDetection: true},
-		{label: 'Apellido', tag: 'input', type: 'text', required: false, speechDetection: true},
-		{label: 'Empresa', tag: 'input', type: 'text', required: true, speechDetection: true},
-		{label: 'Email', tag: 'input', type: 'email', required: true},
-		{type: 'title', size: 'h4', text: 'Sobre la charla'},
+		{type: 'title', size: 'h4', text: 'Datos principales'},
+		{label: 'Nombre', tag: 'input', type: 'text',  required: true},
+		
 	    {type: 'custom', tag: 'div', class: 'row', childs: [
-	    	{type: 'custom', tag: 'div', class: 'col-md-6', content: 'esto es un div', childs: [
-				{label: 'Charla', tag: 'input', type:'radio', required: true, childs : [ 
-			        {'value': '1', 'label': 'Buena', skipTo: 7},
-			        {'value': '2', 'label': 'Regular'},
-			        {'value': '3', 'label': 'Una verga'}
+	    	{type: 'custom', tag: 'div', class: 'col-md-6',  childs: [
+				{label: 'Tipo de presupuesto', tag: 'input', type:'radio', required: true, childs : [ 
+			        {'value': 'Sitio Web', 'label': 'Sitio Web'},
+			        {'value': 'Sistema', 'label': 'Sistema'},
+			        {'value': 'App mobile', 'label': 'App Mobile'},
+			        {'value': 'Otros', 'label': 'Otros'}
 			    ]},
 
-
 	    	]},
+
 	    	{type: 'custom', tag: 'div', class: 'col-md-6', content: 'esto es un div', childs: [	
 				{label: 'Contenidos', tag: 'input', type:'radio', required: true, childs : [ 
 			        {'value': '1', 'label': 'Buena'},
@@ -104,15 +102,6 @@ var json = {
 	    	]},
 	    	
 	    ]},
-	    {type: 'custom', tag: 'div', class: 'row', childs: [
-	    	{type: 'custom', tag: 'div', class: 'col-md-12', content: 'esto es un div', childs: [
-		    	{label: 'Charla', tag: 'input', type:'checkbox', required: true, childs : [ 
-				        {'value': '1', 'label': 'Buena', skipTo: 7},
-				        {'value': '2', 'label': 'Regular'},
-				        {'value': '3', 'label': 'Una verga'}
-				    ]},
-			]},
-		]},
 	    {type: 'title', size: 'h4', text: 'Ordene las tecnologias segun su gusto'},
 	    {type: 'sortable', class: '', required: true, childs: [
 			{value: 'Node JS'},
